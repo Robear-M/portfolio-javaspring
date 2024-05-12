@@ -6,11 +6,21 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
 
-    public UserDto getUser(long id) {
-        return new UserDto(1, "Rmalloy");
+    private final UserRepository userRepository;
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    public Iterable<UserDto> findAllUsers() {
+        return this.userRepository.findAll();
+    }
+
+    public UserDto getUser(int id) {
+        return this.userRepository.findById(id).get();
     }
 
     public UserDto postUser(UserDto userDto) {
-        return new UserDto(userDto.getUserId(), userDto.getUsername());
+        return this.userRepository.save(userDto);
     }
 }

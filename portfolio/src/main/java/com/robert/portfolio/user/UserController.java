@@ -16,14 +16,19 @@ public class UserController {
         this.userService = userService;
     }
 
+    @GetMapping("/all")
+    public Iterable<UserDto> findAllUsers() {
+        return this.userService.findAllUsers();
+    }
+
     @GetMapping("/info")
     public ResponseEntity<UserDto> getUserInfo(
-            @RequestParam(value = "", defaultValue = "1") long id) {
+            @RequestParam(value = "", defaultValue = "1") int id) {
             return ResponseEntity.ok(userService.getUser(id));
     }
 
     @PostMapping("/update")
     public ResponseEntity<UserDto> postUser(@RequestBody UserDto userDto) {
-        return ResponseEntity.created(URI.create("/v1/user/update")).body(userService.postUser(new UserDto(2, "rmalloy1")));
+        return ResponseEntity.ok(this.userService.postUser(userDto));
     }
 }
